@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "873166321544",
+    "firebase_url": "https://letsgotaxi-58bdd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "letsgotaxi-58bdd",
+    "storage_bucket": "letsgotaxi-58bdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873166321544:android:c1c4d73cf7a7d4d97c6c3d",
+        "android_client_info": {
+          "package_name": "com.marioskif.cab_rider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873166321544-if4omkamnutfj47qa8c4mp7dh1nf4iil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF487S1x35kzeaTo_lnuOXHGx_Ofr8F7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873166321544-if4omkamnutfj47qa8c4mp7dh1nf4iil.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "873166321544-lllel079989il90igabs28kipg86r2p8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.marioskif.cabRider"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873166321544:android:6652a47fe344d75c7c6c3d",
+        "android_client_info": {
+          "package_name": "com.marioskif.cabdriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873166321544-if4omkamnutfj47qa8c4mp7dh1nf4iil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF487S1x35kzeaTo_lnuOXHGx_Ofr8F7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873166321544-if4omkamnutfj47qa8c4mp7dh1nf4iil.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "873166321544-lllel079989il90igabs28kipg86r2p8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.marioskif.cabRider"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
