@@ -6,6 +6,7 @@ import 'package:cab_driver/main.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:cab_driver/DataHandler/backgroundMessageHandler.dart';
 import 'dart:io' show Platform;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,12 +20,15 @@ class PushNotificationService
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         retrieveRideRequestInfo(getRideRequestId(message), context);
+        myBackgroundMessageHandler(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
         retrieveRideRequestInfo(getRideRequestId(message), context);
+        myBackgroundMessageHandler(message);
       },
       onResume: (Map<String, dynamic> message) async {
         retrieveRideRequestInfo(getRideRequestId(message), context);
+        myBackgroundMessageHandler(message);
       },
     );
   }
