@@ -70,11 +70,15 @@ class AssistantMethods
     }
   }
 
+  /*
+  /// If uncomment that, uncomment also in notificationDialog.dart l:147
   static void disableHomeTabLiveLocationUpdates()
   {
     homeTabPageStreamSubscription.pause();
     Geofire.removeLocation(currentfirebaseUser.uid);
   }
+
+   */
 
   static void enableHomeTabLiveLocationUpdates()
   {

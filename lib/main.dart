@@ -1,4 +1,5 @@
 import 'package:cab_driver/Screens/carInfoScreen.dart';
+import 'package:cab_driver/Screens/documentsinfoScreen.dart';
 import 'package:cab_driver/configMaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
           LoginScreen.idScreen: (context) => LoginScreen(),
           MainScreen.idScreen: (context) => MainScreen(),
           CarInfoScreen.idScreen: (context) => CarInfoScreen(),
+          DocumentsinfoScreen.idScreen: (context) => DocumentsinfoScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

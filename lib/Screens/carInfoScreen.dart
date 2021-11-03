@@ -1,3 +1,4 @@
+import 'package:cab_driver/Screens/documentsinfoScreen.dart';
 import 'package:cab_driver/Screens/mainscreen.dart';
 import 'package:cab_driver/Screens/registrationScreen.dart';
 import 'package:cab_driver/configMaps.dart';
@@ -20,7 +21,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
 
   TextEditingController carColorTextEditingController = TextEditingController();
 
-  List<String> carTypesList = ['uber-x', 'uber-go', 'bike'];
+  List<String> carTypesList = ['Four Door', 'Six Door'];
 
   String selectedCarType;
 
@@ -160,6 +161,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
 
     driversRef.child(userId).child("car_details").set(carInfoMap);
 
-    Navigator.pushNamedAndRemoveUntil(context, MainScreen.idScreen, (route) => false);
+    //Navigator.pushNamedAndRemoveUntil(context, MainScreen.idScreen, (route) => false);
+    Navigator.pushNamed(context, DocumentsinfoScreen.idScreen);
   }
 }
