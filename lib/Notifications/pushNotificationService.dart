@@ -13,11 +13,32 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PushNotificationService
 {
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   Future initialize(context) async
   {
-    firebaseMessaging.configure(
+    if (Platform.isIOS) {
+      firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+    }
+
+    FirebaseMessaging.onMessage.listen((event) {
+      // fetchRideInfo(getRideID(message), context);
+          (Map<String, dynamic> message) async => retrieveRideRequestInfo(getRideRequestId(message), context);
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // fetchRideInfo(getRideID(message), context);
+          (Map<String, dynamic> message) async => retrieveRideRequestInfo(getRideRequestId(message), context);
+
+ /*   firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         retrieveRideRequestInfo(getRideRequestId(message), context);
         myBackgroundMessageHandler(message);
@@ -30,8 +51,12 @@ class PushNotificationService
         retrieveRideRequestInfo(getRideRequestId(message), context);
         myBackgroundMessageHandler(message);
       },
-    );
-  }
+    );*/
+  });
+        }
+
+
+
 
   Future<String> getToken() async
   {
@@ -132,3 +157,5 @@ class PushNotificationService
  */
   }
 }
+
+

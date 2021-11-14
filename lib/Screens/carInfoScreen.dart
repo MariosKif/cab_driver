@@ -1,4 +1,4 @@
-import 'package:cab_driver/Screens/documentsinfoScreen.dart';
+import 'package:cab_driver/Screens/driverLicenseinfoScreen.dart';
 import 'package:cab_driver/Screens/mainscreen.dart';
 import 'package:cab_driver/Screens/registrationScreen.dart';
 import 'package:cab_driver/configMaps.dart';

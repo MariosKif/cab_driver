@@ -7,7 +7,7 @@ import 'package:cab_driver/Models/allUsers.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-String mapKey = "AIzaSyAXhk1498g3ORPHcP6Wytkouh0Mn28obVo";
+String mapKey = "AIzaSyAF487S1x35kzeaTo_lnuOXHGx_Ofr8F7w";
 
 User firebaseUser;
 
@@ -30,4 +30,4 @@ double starCounter=0.0;
 
 String rideType="";
 
-String serverToken = "key=AAAAgyudES0:APA91bGZjOc3Dje2kxGTfvUicXFA8XaeOGB3WTpcp0DxBEOwondnXAVt-_koh_l_iJGeO6Czt2mEq8x65EvDuJIZ_LCqgY0hkWQ3bqU5mBjspjCMAdz_pQ8QBNyru3AFLuWIgq9op3cs";
+String serverToken = "key=AAAAy0zEt4g:APA91bE_jBviKmQX9Cx-gKwuH0tcZ6RU5p46nF521CArfitmiUwZqz9kKNpiERIu2qingQ7xg-c5blsabdvNeAPVMSI4bi5pQjNYFHSFlyjMRUAPO8xW_zA3Q1FR-a9LZ9CxCz8x37_a";
