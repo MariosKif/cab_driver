@@ -1,32 +1,23 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cab_driver/Screens/mainscreen.dart';
 import 'package:cab_driver/Screens/registrationScreen.dart';
 import 'package:cab_driver/configMaps.dart';
 import 'package:cab_driver/main.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:cab_driver/Assistants/firebaseApi.dart';
-
 
 
 class DocumentsinfoScreen extends StatefulWidget
 {
   static const String idScreen = "documentsinfo";
-  
-
 
   @override
   _DocumentsinfoScreenState createState() => _DocumentsinfoScreenState();
 }
-
-
 
 class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
   TextEditingController driverLicenseEditingController = TextEditingController();
@@ -45,12 +36,8 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
   String userId = currentfirebaseUser.uid;
   var snapshot;
 
-
-
   File _image;
   final picker = ImagePicker();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,16 +61,8 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
 
                         style: raisedButtonStyle,
                         child: Text('Driver License'),
-                        onPressed: () async {
-                          getImage();
-
-                          String filename = basename(_image.path);
-                          Reference storageReference = FirebaseStorage.instance.ref().child("<Bucket Name>/$filename");
-                          final UploadTask uploadTask = storageReference.putFile(_image);
-
-
-
-
+                        onPressed: ()  {
+                          getImage("Driver License");
 
                           driverLicenseEditingController.addListener(() {
                             return true;
@@ -93,23 +72,25 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
                     SizedBox(height: 15.0,),
                     ElevatedButton(
                       style: raisedButtonStyle,
-                      onPressed: () async {
-                        //selectFile();
+                      child: Text('Profecional Driver License'),
+                      onPressed: ()  {
+
+                        getImage("Profecional Driver License");
 
                         ProfecionalDriverLicenseEditingController
                             .addListener(() {
                           return true;
                         });
                       },
-                      child: Text('Profecional Driver License'),
+
                     ),
 
                     SizedBox(height: 15.0,),
                     ElevatedButton(
                       style: raisedButtonStyle,
-                      onPressed: () async {
+                      onPressed: ()  {
 
-
+                        getImage("Vehicle Registration");
 
                         vehicleRegistrationLicenseEditingController
                             .addListener(() {
@@ -121,9 +102,9 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
                     SizedBox(height: 15.0,),
                     ElevatedButton(
                       style: raisedButtonStyle,
-                      onPressed: () async {
-                        // selectFile();
+                      onPressed: () {
 
+                        getImage("Urban class road use permit");
 
                         UrbanClassUsePermitLicenseEditingController
                             .addListener(() {
@@ -141,31 +122,27 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: RaisedButton(
                         onPressed: () {
-                          if (driverLicenseEditingController.hasListeners ==
-                              false) //driverLicenseEditingController.hasListeners==false
+                          if (driverLicenseEditingController.hasListeners == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Driver License.", context);
                           }
                           else if (ProfecionalDriverLicenseEditingController
-                              .hasListeners ==
-                              false) //ProfecionalDriverLicenseEditingController.hasListeners==false
+                              .hasListeners == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Profecional Driver License.",
                                 context);
                           }
                           else if (vehicleRegistrationLicenseEditingController
-                              .hasListeners ==
-                              false) //vehicleRegistrationLicenseEditingController.hasListeners==false
+                              .hasListeners == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Vehicle Registration.",
                                 context);
                           }
                           else if (UrbanClassUsePermitLicenseEditingController
-                              .hasListeners ==
-                              false) //UrbanClassUsePermitLicenseEditingController.hasListeners==false
+                              .hasListeners == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Urban Class Use Permit.",
@@ -213,28 +190,8 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
     ),
   );
 
-  /*_imgFromCamera() async {
-
-    XFile image = await _picker.pickImage(source: ImageSource.camera);
-
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-
-  _imgFromGallery() async {
-
-    XFile image = await _picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(image.path);
-    });
-  }
-*/
   void saveDriverDocInfo(context) {
     String userId = currentfirebaseUser.uid;
-
 
     Map docInfoMap =
     {
@@ -254,84 +211,16 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
         context, MainScreen.idScreen, (route) => false);
   }
 
-
-  /* void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Photo Library'),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
-                    onTap: () {
-                      _imgFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-    );
-  }
-
-  */
-/*
-  Future selectFile() async {
-    final result =
-    await FilePicker.platform..pickFiles();
-
-    if (result == null) return;
-     Uint8List file = result.files.single.bytes;
-
-
-
-
-
-    setState(() => file = File(path));
-
-  }
-
- */
-
-  //Future uploadFile() async {
-    /*  if (file == null) return;
-
-    final fileName = basename(file.path);
-    final destination = '$userId/name';
-
-    firebaseApi.uploadFile(destination, file);
-
-   */
-/*
-    FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image);
-
-    if (result != null) {
-      File file = File(result.files.single.path);
-    }
-
-      // Upload file
-       FirebaseStorage.instance.ref('$userId/name').putData;
-    }
-
- */
-
-  Future getImage() async {
+  Future getImage(String type) async {
     final pickedFile =  await ImagePicker().getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+
+        String filename = basename(_image.path);
+        Reference storageReference = FirebaseStorage.instance.ref().child("$userId/$type");
+        final UploadTask uploadTask = storageReference.putFile(_image);
+
 
 
       } else {
@@ -340,12 +229,7 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
 
     });
   }
-
-
-
-
-
-  }
+}
 
 
 
