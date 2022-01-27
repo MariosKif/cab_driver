@@ -50,19 +50,14 @@ class AssistantMethods
     //Local Currency
     //1$ = 160 RS
     //double totalLocalAmount = totalFareAmount * 160;
-    if(rideType == "uber-x")
+    if(rideType == "Four Door")
     {
       double result = (totalFareAmount.truncate()) * 2.0;
       return result.truncate();
     }
-    else if(rideType == "uber-go")
+    else if(rideType == "Six Door")
     {
       return totalFareAmount.truncate();
-    }
-    else if(rideType == "bike")
-    {
-      double result = (totalFareAmount.truncate()) / 2.0;
-      return result.truncate();
     }
     else
     {
@@ -70,7 +65,7 @@ class AssistantMethods
     }
   }
 
-  /*
+
   /// If uncomment that, uncomment also in notificationDialog.dart l:147
   static void disableHomeTabLiveLocationUpdates()
   {
@@ -78,7 +73,7 @@ class AssistantMethods
     Geofire.removeLocation(currentfirebaseUser.uid);
   }
 
-   */
+
 
   static void enableHomeTabLiveLocationUpdates()
   {

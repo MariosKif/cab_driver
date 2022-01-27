@@ -3,22 +3,66 @@ import 'package:cab_driver/Models/rideDetails.dart';
 import 'package:cab_driver/Notifications/notificationsDialog.dart';
 import 'package:cab_driver/configMaps.dart';
 import 'package:cab_driver/main.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_driver/DataHandler/backgroundMessageHandler.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+ //import 'package:firebase/firebase.dart';
+
 import 'dart:io' show Platform;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Background Notification");
+}
 
 class PushNotificationService
 {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
+
+  @override
+  initState() {
+
+    registerUpPushNotification();
+    _listenToPushNotifications();
+  }
+
+
+  registerUpPushNotification() {
+    //REGISTER REQUIRED FOR IOS
+    if (Platform.isIOS) {
+      firebaseMessaging.requestPermission();
+    }
+
+    firebaseMessaging.getToken().then((value) {
+      if (value == null) return;
+      print('token $value');
+    });
+  }
+
+  _listenToPushNotifications() {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("onMessage");
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('onMessageOpenedApp');
+    });
+  }
+
+
   Future initialize(context) async
   {
     if (Platform.isIOS) {
-      firebaseMessaging.requestPermission(
+
+      await firebaseMessaging.requestPermission(
         alert: true,
         announcement: false,
         badge: true,
@@ -28,17 +72,49 @@ class PushNotificationService
         sound: true,
       );
     }
+    print("2");
+    //onMessage
 
-    FirebaseMessaging.onMessage.listen((event) {
-      // fetchRideInfo(getRideID(message), context);
-          (Map<String, dynamic> message) async => retrieveRideRequestInfo(getRideRequestId(message), context);
-    });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // fetchRideInfo(getRideID(message), context);
-          (Map<String, dynamic> message) async => retrieveRideRequestInfo(getRideRequestId(message), context);
 
- /*   firebaseMessaging.configure(
+      FirebaseMessaging.onMessage.listen(( message)  {
+        retrieveRideRequestInfo(getRideRequestId(message.data),context);
+        print(message.data);
+      });
+
+
+      FirebaseMessaging.onMessageOpenedApp.listen((  message) {
+        retrieveRideRequestInfo(getRideRequestId(message.data),context);
+        print(message.data);
+        //print(message );
+      });
+
+    FirebaseMessaging.onBackgroundMessage.call((message) async => (Map<String, dynamic> message)  =>
+        retrieveRideRequestInfo(getRideRequestId(message), context));
+
+  }
+/*
+(Map<String, dynamic> message)  =>
+            retrieveRideRequestInfo(getRideRequestId(message), context);
+            print("4");
+
+
+
+(Map<String, dynamic> message) async =>
+            retrieveRideRequestInfo(getRideRequestId(message), context);
+            print("5");
+
+
+
+
+    FirebaseMessaging.onMessage.listen((event) async =>
+        (Map<String, dynamic> message) async =>
+        retrieveRideRequestInfo(getRideRequestId(message), context));
+
+
+
+
+    firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         retrieveRideRequestInfo(getRideRequestId(message), context);
         myBackgroundMessageHandler(message);
@@ -52,14 +128,14 @@ class PushNotificationService
         myBackgroundMessageHandler(message);
       },
     );*/
-  });
-        }
+
+
 
 
 
 
   Future<String> getToken() async
-  {
+  { print('6');
     String token = await firebaseMessaging.getToken();
     print("This is token :: ");
     print(token);
@@ -77,14 +153,14 @@ class PushNotificationService
 
   Print statements are for testing purpose.
    */
-  String getRideRequestId(Map<String, dynamic> message)
-  {
+  String getRideRequestId(Map<String, dynamic> message)    //Map<String, dynamic>
+  { print('7');
     String rideRequestId = "";
     if(Platform.isAndroid)
     {
      // print("This is a request ID for ANDROID::");
-      rideRequestId = message['data']['ride_request_id'];
-    //  print(rideRequestId);
+      rideRequestId = message['data']['ride_request_id'];  //['data']
+      //print(rideRequestId);
     }
     else
     {
@@ -139,7 +215,7 @@ class PushNotificationService
         );
       }
     });
-/*
+
     Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
       if (message.containsKey('data')) {
         // Handle data message
@@ -154,7 +230,7 @@ class PushNotificationService
       // Or do other work.
     }
 
- */
+
   }
 }
 
