@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class HistoryItem extends StatelessWidget
 {
   final History history;
-  HistoryItem({this.history});
+  HistoryItem({required this.history});
 
   @override
   Widget build(BuildContext context)

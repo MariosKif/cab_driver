@@ -1,10 +1,10 @@
 class PlacePredictions
 {
-  String secondary_text;
-  String main_text;
-  String place_id;
+  late String secondary_text;
+  late String main_text;
+  late String place_id;
 
-  PlacePredictions({this.secondary_text, this.main_text, this.place_id});
+  PlacePredictions({required this.secondary_text, required this.main_text, required this.place_id});
 
   PlacePredictions.fromJson(Map<String, dynamic> json)
   {

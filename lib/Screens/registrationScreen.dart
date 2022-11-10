@@ -116,20 +116,14 @@ class RegisterationScreen extends StatelessWidget
                     ),
 
                     SizedBox(height: 20.0,),
-                    RaisedButton(
-                      color: Colors.yellow,
-                      textColor: Colors.white,
-                      child: Container(
-                        height: 50.0,
-                        child: Center(
-                          child: Text(
-                            "Create Account",
-                            style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
-                          ),
-                        ),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.yellow, foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
                       ),
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(24.0),
+
+
                       ),
                       onPressed: ()
                       {
@@ -153,14 +147,22 @@ class RegisterationScreen extends StatelessWidget
                         {
                           registerNewUser(context);
                         }
-                      },
+                      }, child: Container(
+                      height: 50.0,
+                      child: Center(
+                        child: Text(
+                          "Create Account",
+                          style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
+                        ),
+                      ),
+                    ),
                     ),
 
                   ],
                 ),
               ),
 
-              FlatButton(
+              ElevatedButton(
                 onPressed: ()
                 {
                   Navigator.pushNamedAndRemoveUntil(context, LoginScreen.idScreen, (route) => false);
@@ -190,7 +192,7 @@ class RegisterationScreen extends StatelessWidget
         }
     );
 
-    final User firebaseUser = (await _firebaseAuth
+    final User? firebaseUser = (await _firebaseAuth
         .createUserWithEmailAndPassword(
         email: emailTextEditingController.text,
         password: passwordTextEditingController.text

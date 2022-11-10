@@ -5,6 +5,7 @@ import 'package:cab_driver/tabsPages/profileTabPage.dart';
 import 'package:cab_driver/tabsPages/ratingTabPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+//import 'package:cab_driver/tabsPages/calendarTabPage.dart';
 
 class MainScreen extends StatefulWidget
 {
@@ -18,7 +19,7 @@ class MainScreen extends StatefulWidget
 
 class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin
 {
-  TabController tabController;
+  late TabController tabController;
   int selectedIndex = 0;
 
   void onItemClicked(int index)
@@ -53,7 +54,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
         children: [
           HomeTabPage(),
           EarningsTabPage(),
-          RatingTabPage(),
+         // CalendarTabPage(),
           ProfileTabPage(),
         ],
       ),
@@ -71,8 +72,8 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: "Ratings",
+            icon: Icon(Icons.book),
+            label: "Calendar",
           ),
 
           BottomNavigationBarItem(

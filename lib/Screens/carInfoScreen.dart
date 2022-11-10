@@ -23,7 +23,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
 
   List<String> carTypesList = ['Four Door', 'Six Door'];
 
-  String selectedCarType;
+  late String selectedCarType;
 
   @override
   Widget build(BuildContext context)
@@ -83,7 +83,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
                       value: selectedCarType,
                       onChanged: (newValue) {
                         setState(() {
-                          selectedCarType = newValue;
+                          selectedCarType = newValue.toString();
                           displayToastMessage(selectedCarType, context);
                         });
                       },
@@ -99,7 +99,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
 
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: ()
                         {
                           if(carModelTextEditingController.text.isEmpty)
@@ -123,7 +123,7 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
                             saveDriverCarInfo(context);
                           }
                         },
-                        color: Colors.black54,
+                        //color: Colors.black54,
                         child: Padding(
                           padding: EdgeInsets.all(17.0),
                           child: Row(

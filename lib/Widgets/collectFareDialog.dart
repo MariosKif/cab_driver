@@ -7,7 +7,7 @@ class CollectFareDialog extends StatelessWidget
   final String paymentMethod;
   final int fareAmount;
 
-  CollectFareDialog({this.paymentMethod, this.fareAmount});
+  CollectFareDialog({required this.paymentMethod, required this.fareAmount});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class CollectFareDialog extends StatelessWidget
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: RaisedButton(
+              child: ElevatedButton(      //RaisedButton
                 onPressed: () async
                 {
                   Navigator.pop(context);
@@ -57,7 +57,9 @@ class CollectFareDialog extends StatelessWidget
 
                   AssistantMethods.enableHomeTabLiveLocationUpdates();
                 },
-                color: Colors.deepPurpleAccent,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent
+                ),
                 child: Padding(
                   padding: EdgeInsets.all(17.0),
                   child: Row(

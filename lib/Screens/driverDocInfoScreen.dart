@@ -36,8 +36,12 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
   String userId = currentfirebaseUser.uid;
   var snapshot;
 
-  File _image;
+  late File _image;
   final picker = ImagePicker();
+  late bool DriverLicense =false;
+  late bool ProfectionalLicense = false;
+  late bool RegistrationLicense= false;
+  late bool UrbanClassPermit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +69,7 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
                           getImage("Driver License");
 
                           driverLicenseEditingController.addListener(() {
-                            return true;
+                           DriverLicense = true;
                           });
                         }),
 
@@ -79,7 +83,7 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
 
                         ProfecionalDriverLicenseEditingController
                             .addListener(() {
-                          return true;
+                          ProfectionalLicense = true;
                         });
                       },
 
@@ -94,7 +98,8 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
 
                         vehicleRegistrationLicenseEditingController
                             .addListener(() {
-                          return true;
+                          RegistrationLicense= true;
+
                         });
                       },
                       child: Text('Vehicle Registration'),
@@ -108,7 +113,7 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
 
                         UrbanClassUsePermitLicenseEditingController
                             .addListener(() {
-                          return true;
+                          bool UrbanClassPermit = true;
                         });
                       },
                       child: Text('Urban class road use permit'),
@@ -120,29 +125,33 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
 
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () {
-                          if (driverLicenseEditingController.hasListeners == false)
+                          //driverLicenseEditingController.hasListeners
+                          if (DriverLicense == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Driver License.", context);
                           }
-                          else if (ProfecionalDriverLicenseEditingController
-                              .hasListeners == false)
+                          //ProfecionalDriverLicenseEditingController
+                          //                               .hasListeners
+                          else if (ProfectionalLicense == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Profecional Driver License.",
                                 context);
                           }
-                          else if (vehicleRegistrationLicenseEditingController
-                              .hasListeners == false)
+                          //vehicleRegistrationLicenseEditingController
+                          //                               .hasListeners
+                          else if (RegistrationLicense == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Vehicle Registration.",
                                 context);
                           }
-                          else if (UrbanClassUsePermitLicenseEditingController
-                              .hasListeners == false)
+                          // UrbanClassUsePermitLicenseEditingController
+                          //                               .hasListeners
+                          else if (UrbanClassPermit == false)
                               {
                             displayToastMessage(
                                 "Please Upload your Urban Class Use Permit.",
@@ -152,7 +161,7 @@ class _DocumentsinfoScreenState extends State<DocumentsinfoScreen> {
                             saveDriverDocInfo(context);
                           }
                         },
-                        color: Colors.black54,
+                       // color: Colors.black54,
                         child: Padding(
                           padding: EdgeInsets.all(17.0),
                           child: Row(

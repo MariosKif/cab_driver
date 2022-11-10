@@ -9,21 +9,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 String mapKey = "AIzaSyAF487S1x35kzeaTo_lnuOXHGx_Ofr8F7w";
 
-User firebaseUser;
+User firebaseUser = {} as User;
 
-Users userCurrentInfo;
+Users userCurrentInfo= {} as Users;
 
-User currentfirebaseUser;
+User currentfirebaseUser= {} as User;
 
-StreamSubscription<Position> homeTabPageStreamSubscription;
+StreamSubscription<Position> homeTabPageStreamSubscription= {} as StreamSubscription<Position>;
 
-StreamSubscription<Position> rideStreamSubscription;
+StreamSubscription<Position> rideStreamSubscription = {} as StreamSubscription<Position> ;
 
 final assetsAudioPlayer = AssetsAudioPlayer();
 
-Position currentPosition;
+Position currentPosition = {} as Position;
 
-Drivers driversInformation;
+Drivers driversInformation = {} as Drivers;
 
 String title="";
 double starCounter=0.0;

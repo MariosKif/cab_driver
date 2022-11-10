@@ -27,7 +27,7 @@ class HomeTabPage extends StatefulWidget
 
 class _HomeTabPageState extends State<HomeTabPage> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  GoogleMapController newGoogleMapController;
+  late GoogleMapController newGoogleMapController;
 
   var geoLocator = Geolocator();
 
@@ -46,7 +46,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   getRideType()
   {
-    driversRef.child(currentfirebaseUser.uid).child("car_details").child("type").once().then((DataSnapshot snapshot)
+    driversRef.child(currentfirebaseUser.uid).child("car_details").child("type").once().then((value) => (DataSnapshot snapshot)
     {
       if(snapshot.value != null)
       {
@@ -60,7 +60,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
   getRatings()
   {
     //update ratings
-    driversRef.child(currentfirebaseUser.uid).child("ratings").once().then((DataSnapshot dataSnapshot)
+    driversRef.child(currentfirebaseUser.uid).child("ratings").once().then((value) => (DataSnapshot dataSnapshot)
     {
       if(dataSnapshot.value != null)
       {
@@ -124,9 +124,9 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   void getCurrentDriverInfo() async
   {
-    currentfirebaseUser = await FirebaseAuth.instance.currentUser;
+    currentfirebaseUser = (await FirebaseAuth.instance.currentUser)!;
 
-    driversRef.child(currentfirebaseUser.uid).once().then((DataSnapshot dataSnapShot){
+    driversRef.child(currentfirebaseUser.uid).once().then((value) => (DataSnapshot dataSnapShot){
       if(dataSnapShot.value != null)
       {
         driversInformation = Drivers.fromSnapshot(dataSnapShot);
@@ -179,9 +179,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: RaisedButton(
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(24.0),
+                child: ElevatedButton(        //RaisedButton
+                  style: ElevatedButton.styleFrom(
+                  shape:RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                        )
                   ),
                   onPressed: ()
                   {
@@ -211,7 +213,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                       displayToastMessage("you are Offline Now.", context);
                     }
                   },
-                  color: driverStatusColor,
+                  //color: driverStatusColor,
                   child: Padding(
                     padding: EdgeInsets.all(17.0),
                     child: Row(
@@ -264,6 +266,6 @@ class _HomeTabPageState extends State<HomeTabPage> {
     Geofire.removeLocation(currentfirebaseUser.uid);
     rideRequestRef.onDisconnect();
     rideRequestRef.remove();
-    rideRequestRef= null;
+    //rideRequestRef= null;
   }
 }

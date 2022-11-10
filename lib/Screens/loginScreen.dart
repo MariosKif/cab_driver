@@ -87,20 +87,10 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
 
                     SizedBox(height: 20.0,),
-                    RaisedButton(
-                      color: Colors.yellow,
-                      textColor: Colors.white,
-                      child: Container(
-                        height: 50.0,
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
-                          ),
-                        ),
-                      ),
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(24.0),
+                    ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0),)
                       ),
                       onPressed: ()
                       {
@@ -116,14 +106,22 @@ class _LoginScreenState extends State<LoginScreen>
                         {
                           loginAndAuthenticateUser(context);
                         }
-                      },
+                      },child: Container(
+                      height: 50.0,
+                      child: Center(
+                        child: Text(
+                          "Login",
+                          style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
+                        ),
+                      ),
+                    ),
                     ),
 
                   ],
                 ),
               ),
 
-              FlatButton(
+              ElevatedButton(
                 onPressed: ()
                 {
                   Navigator.pushNamedAndRemoveUntil(context, RegisterationScreen.idScreen, (route) => false);
@@ -152,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen>
         }
     );
 
-    final User firebaseUser = (await _firebaseAuth
+    final User? firebaseUser = (await _firebaseAuth
         .signInWithEmailAndPassword(
         email: emailTextEditingController.text,
         password: passwordTextEditingController.text
@@ -163,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen>
 
     if(firebaseUser != null)
     {
-      driversRef.child(firebaseUser.uid).once().then((DataSnapshot snap){
+      driversRef.child(firebaseUser.uid).once().then((value) => (DataSnapshot snap){
         if(snap.value != null)
         {
           currentfirebaseUser = firebaseUser;

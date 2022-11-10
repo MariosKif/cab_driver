@@ -17,7 +17,7 @@ class ProfileTabPage extends StatelessWidget {
           children: [
 
             Text(
-              driversInformation.name,
+              driversInformation.name.toString(),  //toString() is for testing
               style: TextStyle(
                 fontSize: 65.0,
                 color: Colors.white,
@@ -48,7 +48,7 @@ class ProfileTabPage extends StatelessWidget {
             SizedBox(height: 40.0,),
 
             InfoCard(
-              text: driversInformation.phone,
+              text: driversInformation.phone.toString(),   //toString() is for testing
               icon: Icons.phone,
               onPressed: () async {
                 print("this is phone.");
@@ -56,7 +56,7 @@ class ProfileTabPage extends StatelessWidget {
             ),
 
             InfoCard(
-              text: driversInformation.email,
+              text: driversInformation.email.toString(),   //toString() is for testing
               icon: Icons.email,
               onPressed: () async {
                 print("this is email.");
@@ -64,7 +64,7 @@ class ProfileTabPage extends StatelessWidget {
             ),
 
             InfoCard(
-              text: driversInformation.car_color + " " + driversInformation.car_model + " " + driversInformation.car_number,
+              text: driversInformation.car_color! + " " + driversInformation.car_model.toString() + " " + driversInformation.car_number.toString(),
               icon: Icons.car_repair,
               onPressed: () async {
                 print("this is car info.");
@@ -77,7 +77,7 @@ class ProfileTabPage extends StatelessWidget {
                 Geofire.removeLocation(currentfirebaseUser.uid);
                 rideRequestRef.onDisconnect();
                 rideRequestRef.remove();
-                rideRequestRef = null;
+                //rideRequestRef = null;
 
                 FirebaseAuth.instance.signOut();
                 Navigator.pushNamedAndRemoveUntil(context, LoginScreen.idScreen, (route) => false);
@@ -116,13 +116,13 @@ class InfoCard extends StatelessWidget
   final IconData icon;
   Function onPressed;
 
-  InfoCard({this.text, this.icon, this.onPressed,});
+  InfoCard({required this.text, required this.icon, required this.onPressed,});
 
   @override
   Widget build(BuildContext context)
   {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () async { onPressed;},
       child: Card(
         color: Colors.white,
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),

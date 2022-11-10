@@ -16,7 +16,7 @@ import 'package:cab_driver/configMaps.dart';
 
 class AssistantMethods
 {
-  static Future<DirectionDetails> obtainPlaceDirectionDetails(LatLng initialPosition, LatLng finalPosition) async
+  static Future<DirectionDetails?> obtainPlaceDirectionDetails(LatLng initialPosition, LatLng finalPosition) async
   {
     String directionUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=$mapKey";
 
@@ -27,7 +27,7 @@ class AssistantMethods
       return null;
     }
 
-    DirectionDetails directionDetails = DirectionDetails();
+    DirectionDetails directionDetails = DirectionDetails(distanceText: '', durationText: '', encodedPoints: '');
 
     directionDetails.encodedPoints = res["routes"][0]["overview_polyline"]["points"];
 
@@ -43,8 +43,8 @@ class AssistantMethods
   static int calculateFares(DirectionDetails directionDetails)
   {
     //in terms USD
-    double timeTraveledFare = (directionDetails.durationValue / 60) * 0.20;
-    double distancTraveledFare = (directionDetails.distanceValue / 1000) * 0.20;
+    double timeTraveledFare = (directionDetails.durationValue! / 60) * 0.20;
+    double distancTraveledFare = (directionDetails.distanceValue! / 1000) * 0.20;
     double totalFareAmount = timeTraveledFare + distancTraveledFare;
 
     //Local Currency
@@ -84,7 +84,7 @@ class AssistantMethods
   static void retrieveHistoryInfo(context)
   {
     //retrieve and display Earnings
-    driversRef.child(currentfirebaseUser.uid).child("earnings").once().then((DataSnapshot dataSnapshot)
+    driversRef.child(currentfirebaseUser.uid).child("earnings").once().then((value) => (DataSnapshot dataSnapshot)
     {
       if(dataSnapshot.value != null)
       {
@@ -94,18 +94,18 @@ class AssistantMethods
     });
 
     //retrieve and display Trip History
-    driversRef.child(currentfirebaseUser.uid).child("history").once().then((DataSnapshot dataSnapshot)
+    driversRef.child(currentfirebaseUser.uid).child("history").once().then((value) => (DataSnapshot dataSnapshot)
     {
       if(dataSnapshot.value != null)
       {
         //update total number of trip counts to provider
-        Map<dynamic, dynamic> keys = dataSnapshot.value;
-        int tripCounter = keys.length;
-        Provider.of<AppData>(context, listen: false).updateTripsCounter(tripCounter);
+        Map<dynamic, dynamic>? keys = dataSnapshot.value as Map?;
+        int? tripCounter = keys?.length;
+        Provider.of<AppData>(context, listen: false).updateTripsCounter(tripCounter!);
 
         //update trip keys to provider
         List<String> tripHistoryKeys = [];
-        keys.forEach((key, value) {
+        keys?.forEach((key, value) {
           tripHistoryKeys.add(key);
         });
         Provider.of<AppData>(context, listen: false).updateTripKeys(tripHistoryKeys);
@@ -120,7 +120,7 @@ class AssistantMethods
 
     for(String key in keys)
     {
-      newRequestsRef.child(key).once().then((DataSnapshot snapshot) {
+      newRequestsRef.child(key).once().then((value) => (DataSnapshot snapshot) {
         if(snapshot.value != null)
         {
           var history = History.fromSnapshot(snapshot);

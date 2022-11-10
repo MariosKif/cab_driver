@@ -4,6 +4,7 @@ import 'package:cab_driver/configMaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cab_driver/Screens/loginScreen.dart';
@@ -12,12 +13,22 @@ import 'package:cab_driver/Screens/registrationScreen.dart';
 import 'package:cab_driver/DataHandler/appData.dart';
 
 
+
+
+Future<void> backgroundHandler(RemoteMessage message) async
+{
+  print(message.data.toString());
+  print(message.notification?.title);
+}
+
 void main() async
 {
   WidgetsFlutterBinding.ensureInitialized();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  currentfirebaseUser = FirebaseAuth.instance.currentUser;
+  currentfirebaseUser = FirebaseAuth.instance.currentUser!;
 
   runApp(MyApp());
 }

@@ -11,7 +11,7 @@ class NotificationDialog extends StatelessWidget
 {
   final RideDetails rideDetails;
 
-  NotificationDialog({this.rideDetails});
+  NotificationDialog({required this.rideDetails});
 
   @override
   Widget build(BuildContext context)
@@ -31,7 +31,7 @@ class NotificationDialog extends StatelessWidget
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 10.0),
-            Image.asset("images/uberx.png", width: 150.0,),
+            //Image.asset("images/uberx.png", width: 150.0,),
             SizedBox(height: 0.0,),
             Text("New Ride Request", style: TextStyle(fontFamily: "Brand Bold", fontSize: 20.0,),),
             SizedBox(height: 20.0),
@@ -78,13 +78,13 @@ class NotificationDialog extends StatelessWidget
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.red)),
-                    color: Colors.white,
-                    textColor: Colors.red,
-                    padding: EdgeInsets.all(8.0),
+                  ElevatedButton(
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(18.0),
+                    //     side: BorderSide(color: Colors.red)),
+                    // color: Colors.white,
+                    // textColor: Colors.red,
+                    // padding: EdgeInsets.all(8.0),
                     onPressed: ()
                     {
                       assetsAudioPlayer.stop();
@@ -100,19 +100,20 @@ class NotificationDialog extends StatelessWidget
 
                   SizedBox(width: 25.0),
 
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.green)),
+                  ElevatedButton( //RaisedButton
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(18.0),
+                    //     side: BorderSide(color: Colors.green)),
                     onPressed: ()
                     {
                       assetsAudioPlayer.stop();
                       checkAvailabilityOfRide(context);
                     },
-                    color: Colors.green,
-                    textColor: Colors.white,
+                    //color: Colors.green,
+                    //textColor: Colors.white,
                     child: Text("Accept".toUpperCase(),
                         style: TextStyle(fontSize: 14)),
+
                   ),
                 ],
               ),
@@ -127,7 +128,7 @@ class NotificationDialog extends StatelessWidget
 
   void checkAvailabilityOfRide(context)
   {
-    rideRequestRef.once().then((DataSnapshot dataSnapShot){
+    rideRequestRef.once().then(((value) => (DataSnapshot dataSnapShot){
       Navigator.pop(context);
       String theRideId = "";
       if(dataSnapShot.value != null)
@@ -158,6 +159,6 @@ class NotificationDialog extends StatelessWidget
       {
         displayToastMessage("Ride not exists.", context);
       }
-    });
+    }));
   }
 }

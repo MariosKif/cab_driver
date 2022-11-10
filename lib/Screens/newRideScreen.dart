@@ -16,7 +16,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class NewRideScreen extends StatefulWidget
 {
   final RideDetails rideDetails;
-  NewRideScreen({this.rideDetails});
+  NewRideScreen({required this.rideDetails});
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -32,7 +32,7 @@ class NewRideScreen extends StatefulWidget
 class _NewRideScreenState extends State<NewRideScreen>
 {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  GoogleMapController newRideGoogleMapController;
+  late GoogleMapController newRideGoogleMapController;
   Set<Marker> markersSet = Set<Marker>();
   Set<Circle> circleSet = Set<Circle>();
   Set<Polyline> polyLineSet = Set<Polyline>();
@@ -40,15 +40,15 @@ class _NewRideScreenState extends State<NewRideScreen>
   PolylinePoints polylinePoints = PolylinePoints();
   double mapPaddingFromBottom = 0;
   var geoLocator = Geolocator();
-  var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation);
-  BitmapDescriptor animatingMarkerIcon;
-  Position myPostion;
+  var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation); //Initialization at the end // NO IDEA WHAT THE FUCK IS DOING
+  late BitmapDescriptor animatingMarkerIcon;
+  late Position myPostion;
   String status = "accepted";
   String durationRide="";
   bool isRequestingDirection = false;
   String btnTitle = "Arrived";
   Color btnColor = Colors.black87;
-  Timer timer;
+  late Timer timer;
   int durationCounter = 0;
 
   @override
@@ -57,6 +57,8 @@ class _NewRideScreenState extends State<NewRideScreen>
 
     acceptRideRequest();
   }
+
+
 
   void createIconMarker()
   {
@@ -100,13 +102,13 @@ class _NewRideScreenState extends State<NewRideScreen>
       oldPos = mPostion;
       updateRideDetails();
 
-      String rideRequestId = widget.rideDetails.ride_request_id;
+      String? rideRequestId = widget.rideDetails.ride_request_id;
       Map locMap =
       {
         "latitude": currentPosition.latitude.toString(),
         "longitude": currentPosition.longitude.toString(),
       };
-      newRequestsRef.child(rideRequestId).child("driver_location").set(locMap);
+      newRequestsRef.child(rideRequestId!).child("driver_location").set(locMap);
     });
   }
 
@@ -139,7 +141,7 @@ class _NewRideScreenState extends State<NewRideScreen>
               var currentLatLng = LatLng(currentPosition.latitude, currentPosition.longitude);
               var pickUpLatLng = widget.rideDetails.pickup;
 
-              await getPlaceDirection(currentLatLng, pickUpLatLng);
+              await getPlaceDirection(currentLatLng, pickUpLatLng!);
 
               getRideLiveLocationUpdates();
             },
@@ -179,7 +181,7 @@ class _NewRideScreenState extends State<NewRideScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.rideDetails.rider_name, style: TextStyle(fontFamily: "Brand Bold", fontSize: 24.0),),
+                        Text(widget.rideDetails.rider_name.toString(), style: TextStyle(fontFamily: "Brand Bold", fontSize: 24.0),),
                         Padding(
                           padding: EdgeInsets.only(right: 10.0),
                           child: Icon(Icons.phone_android),
@@ -227,17 +229,19 @@ class _NewRideScreenState extends State<NewRideScreen>
 
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: RaisedButton(
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(24.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                          )
                         ),
                         onPressed: () async
                         {
                           if(status == "accepted")
                           {
                             status = "arrived";
-                            String rideRequestId = widget.rideDetails.ride_request_id;
-                            newRequestsRef.child(rideRequestId).child("status").set(status);
+                            String? rideRequestId = widget.rideDetails.ride_request_id;
+                            newRequestsRef.child(rideRequestId!).child("status").set(status);
 
                             setState(() {
                               btnTitle = "Start Trip";
@@ -250,15 +254,15 @@ class _NewRideScreenState extends State<NewRideScreen>
                               builder: (BuildContext context)=> ProgressDialog(message: "Please wait...",),
                             );
 
-                            await getPlaceDirection(widget.rideDetails.pickup, widget.rideDetails.dropoff);
+                            await getPlaceDirection(widget.rideDetails.pickup!, widget.rideDetails.dropoff!);
 
                             Navigator.pop(context);
                           }
                           else if(status == "arrived")
                           {
                             status = "onride";
-                            String rideRequestId = widget.rideDetails.ride_request_id;
-                            newRequestsRef.child(rideRequestId).child("status").set(status);
+                            String? rideRequestId = widget.rideDetails.ride_request_id;
+                            newRequestsRef.child(rideRequestId!).child("status").set(status);
 
                             setState(() {
                               btnTitle = "End Trip";
@@ -272,7 +276,7 @@ class _NewRideScreenState extends State<NewRideScreen>
                             endTheTrip();
                           }
                         },
-                        color: btnColor,
+                        //color: btnColor,                      //NEED TO ENABLE IT TO CHANGE THE COLOR OF THE BUTTON ON ACCEPT RIDE
                         child: Padding(
                           padding: EdgeInsets.all(17.0),
                           child: Row(
@@ -296,6 +300,8 @@ class _NewRideScreenState extends State<NewRideScreen>
     );
   }
 
+
+
   Future<void> getPlaceDirection(LatLng pickUpLatLng, LatLng dropOffLatLng) async
   {
     showDialog(
@@ -308,10 +314,10 @@ class _NewRideScreenState extends State<NewRideScreen>
     Navigator.pop(context);
 
     print("This is Encoded Points ::");
-    print(details.encodedPoints);
+    print(details?.encodedPoints);
 
     PolylinePoints polylinePoints = PolylinePoints();
-    List<PointLatLng> decodedPolyLinePointsResult = polylinePoints.decodePolyline(details.encodedPoints);
+    List<PointLatLng> decodedPolyLinePointsResult = polylinePoints.decodePolyline(details!.encodedPoints);
 
     polylineCorOrdinates.clear();
 
@@ -402,8 +408,8 @@ class _NewRideScreenState extends State<NewRideScreen>
 
   void acceptRideRequest()
   {
-    String rideRequestId = widget.rideDetails.ride_request_id;
-    newRequestsRef.child(rideRequestId).child("status").set("accepted");
+    String ?rideRequestId = widget.rideDetails.ride_request_id;
+    newRequestsRef.child(rideRequestId!).child("status").set("accepted");
     newRequestsRef.child(rideRequestId).child("driver_name").set(driversInformation.name);
     newRequestsRef.child(rideRequestId).child("driver_phone").set(driversInformation.phone);
     newRequestsRef.child(rideRequestId).child("driver_id").set(driversInformation.id);
@@ -431,7 +437,7 @@ class _NewRideScreenState extends State<NewRideScreen>
       }
 
       var posLatLng = LatLng(myPostion.latitude, myPostion.longitude);
-      LatLng destinationLatLng;
+      LatLng? destinationLatLng;
 
       if(status == "accepted")
       {
@@ -442,7 +448,7 @@ class _NewRideScreenState extends State<NewRideScreen>
         destinationLatLng = widget.rideDetails.dropoff;
       }
 
-      var directionDetails = await AssistantMethods.obtainPlaceDirectionDetails(posLatLng, destinationLatLng);
+      var directionDetails = await AssistantMethods.obtainPlaceDirectionDetails(posLatLng, destinationLatLng!);
       if(directionDetails != null)
       {
         setState(() {
@@ -474,21 +480,21 @@ class _NewRideScreenState extends State<NewRideScreen>
 
     var currentLatLng = LatLng(myPostion.latitude, myPostion.longitude);
 
-    var directionalDetails = await AssistantMethods.obtainPlaceDirectionDetails(widget.rideDetails.pickup, currentLatLng);
+    var directionalDetails = await AssistantMethods.obtainPlaceDirectionDetails(widget.rideDetails.pickup!, currentLatLng);
 
     Navigator.pop(context);
 
-    int fareAmount = AssistantMethods.calculateFares(directionalDetails);
+    int fareAmount = AssistantMethods.calculateFares(directionalDetails!);
 
-    String rideRequestId = widget.rideDetails.ride_request_id;
-    newRequestsRef.child(rideRequestId).child("fares").set(fareAmount.toString());
+    String? rideRequestId = widget.rideDetails.ride_request_id;
+    newRequestsRef.child(rideRequestId!).child("fares").set(fareAmount.toString());
     newRequestsRef.child(rideRequestId).child("status").set("ended");
     rideStreamSubscription.cancel();
 
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context)=> CollectFareDialog(paymentMethod: widget.rideDetails.payment_method, fareAmount: fareAmount,),
+      builder: (BuildContext context)=> CollectFareDialog(paymentMethod: widget.rideDetails.payment_method.toString(), fareAmount: fareAmount,),
     );
 
     saveEarnings(fareAmount);
@@ -496,7 +502,7 @@ class _NewRideScreenState extends State<NewRideScreen>
 
   void saveEarnings(int fareAmount)
   {
-    driversRef.child(currentfirebaseUser.uid).child("earnings").once().then((DataSnapshot dataSnapShot) {
+    driversRef.child(currentfirebaseUser.uid).child("earnings").once().then((value) => (DataSnapshot dataSnapShot) {
       if(dataSnapShot.value != null)
       {
         double oldEarnings = double.parse(dataSnapShot.value.toString());
@@ -511,4 +517,7 @@ class _NewRideScreenState extends State<NewRideScreen>
       }
     });
   }
+}
+
+LocationOptions({required LocationAccuracy accuracy}) {
 }

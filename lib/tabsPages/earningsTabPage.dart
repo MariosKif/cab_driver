@@ -24,8 +24,10 @@ class EarningsTabPage extends StatelessWidget {
           ),
         ),
 
-        FlatButton(
-          padding: EdgeInsets.all(0),
+        TextButton(
+          style: TextButton.styleFrom(
+              padding: EdgeInsets.all(0)
+          ),
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> HistoryScreen()));
           },
