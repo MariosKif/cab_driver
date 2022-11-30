@@ -1,6 +1,3 @@
-import 'dart:core';
-import 'dart:ffi';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cab_driver/Models/rideDetails.dart';
 import 'package:cab_driver/Notifications/notificationsDialog.dart';
@@ -40,7 +37,6 @@ class PushNotificationService
     //REGISTER REQUIRED FOR IOS
     if (Platform.isIOS) {
       firebaseMessaging.requestPermission();
-
     }
 
     firebaseMessaging.getToken().then((value) {
@@ -48,9 +44,7 @@ class PushNotificationService
       print('token $value');
     });
   }
-  double valueOf(double d){
-    return d;
-  }
+
   _listenToPushNotifications() {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -59,8 +53,7 @@ class PushNotificationService
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("onMessageOpenedApp");
-      print("");
+      print('onMessageOpenedApp');
     });
   }
 
@@ -71,9 +64,9 @@ class PushNotificationService
 
       await firebaseMessaging.requestPermission(
         alert: true,
-        announcement: true,
+        announcement: false,
         badge: true,
-        carPlay: true,
+        carPlay: false,
         criticalAlert: false,
         provisional: false,
         sound: true,
@@ -87,14 +80,13 @@ class PushNotificationService
       FirebaseMessaging.onMessage.listen(( message)  {
         retrieveRideRequestInfo(getRideRequestId(message.data),context);
         print(message.data);
-        print("4");
       });
 
 
       FirebaseMessaging.onMessageOpenedApp.listen((  message) {
         retrieveRideRequestInfo(getRideRequestId(message.data),context);
         print(message.data);
-        print("5");
+        //print(message );
       });
 
     FirebaseMessaging.onBackgroundMessage.call((message) async => (Map<String, dynamic> message)  =>
@@ -142,15 +134,15 @@ class PushNotificationService
 
 
 
-  Future<void> getToken() async{
-   print('6');
+  Future<String?> getToken() async
+  { print('6');
     String? token = await firebaseMessaging.getToken();
     print("This is token :: ");
     print(token);
     driversRef.child(currentfirebaseUser.uid).child("token").set(token);
 
-    firebaseMessaging.subscribeToTopic("drivers"); //
-    firebaseMessaging.subscribeToTopic("users");
+    firebaseMessaging.subscribeToTopic("alldrivers");
+    firebaseMessaging.subscribeToTopic("allusers");
   }
 
 
@@ -162,16 +154,13 @@ class PushNotificationService
   Print statements are for testing purpose.
    */
   String getRideRequestId(Map<String, dynamic> message)    //Map<String, dynamic>
-  {
-    print('7');
+  { print('7');
     String rideRequestId = "";
     if(Platform.isAndroid)
     {
-      print('7.1');
      // print("This is a request ID for ANDROID::");
-      rideRequestId = message['ride_request_id'];  //['data']
-      print(rideRequestId);
-
+      rideRequestId = message['data']['ride_request_id'];  //['data']
+      //print(rideRequestId);
     }
     else
     {
@@ -189,21 +178,25 @@ class PushNotificationService
     {
       if(dataSnapShot.value != null)
       {
+
+
         assetsAudioPlayer.open(Audio("sounds/alert.mp3"));
         assetsAudioPlayer.play();
 
-        double pickUpLocationLat = double.parse(dataSnapShot.value['pickup']['latitude'].toString());   //  ['pickup']
-        double pickUpLocationLng = double.parse(dataSnapShot.value['pickup']['longitude'].toString()); //['pickup']
-        String pickUpAddress = dataSnapShot.value['pickup_address'].toString();
+        final value = dataSnapShot.value as Map<dynamic, dynamic>;
 
-        double dropOffLocationLat = double.parse(dataSnapShot.value['dropoff']['latitude'].toString());
-        double dropOffLocationLng = double.parse(dataSnapShot.value['dropoff']['longitude'].toString());
-        String dropOffAddress = dataSnapShot.value['dropoff_address'].toString();
+        double pickUpLocationLat = double.parse(value['pickup']['latitude'].toString());
+        double pickUpLocationLng = double.parse(value['pickup']['longitude'].toString());
+        String pickUpAddress = value['pickup_address'].toString();
 
-        String paymentMethod = dataSnapShot.value['payment_method'].toString();
+        double dropOffLocationLat = double.parse(value['dropoff']['latitude'].toString());
+        double dropOffLocationLng = double.parse(value['dropoff']['longitude'].toString());
+        String dropOffAddress = value['dropoff_address'].toString();
 
-        String rider_name = dataSnapShot.value["rider_name"];
-        String rider_phone = dataSnapShot.value["rider_phone"];
+        String paymentMethod = value['payment_method'].toString();
+
+        String rider_name = value["rider_name"];
+        String rider_phone = value["rider_phone"];
 
         RideDetails rideDetails = RideDetails(pickup_address: '', dropoff_address: '');
         rideDetails.ride_request_id = rideRequestId;
@@ -240,8 +233,9 @@ class PushNotificationService
 
       // Or do other work.
     }
-    
+
 
   }
 }
+
 

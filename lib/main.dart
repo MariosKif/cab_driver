@@ -33,10 +33,10 @@ void main() async
   runApp(MyApp());
 }
 
-DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
-DatabaseReference driversRef = FirebaseDatabase.instance.reference().child("drivers");
-DatabaseReference newRequestsRef = FirebaseDatabase.instance.reference().child("Ride Requests");
-DatabaseReference rideRequestRef = FirebaseDatabase.instance.reference().child("drivers").child(currentfirebaseUser.uid).child("newRide");
+DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
+DatabaseReference driversRef = FirebaseDatabase.instance.ref().child("drivers");
+DatabaseReference newRequestsRef = FirebaseDatabase.instance.ref().child("Ride Requests");
+DatabaseReference rideRequestRef = FirebaseDatabase.instance.ref().child("drivers").child(currentfirebaseUser.uid).child("newRide");
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

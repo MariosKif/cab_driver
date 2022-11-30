@@ -1,6 +1,6 @@
 import 'package:cab_driver/configMaps.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+//import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class RatingTabPage extends StatefulWidget {
   @override
@@ -41,14 +41,14 @@ class _RatingTabPageState extends State<RatingTabPage> {
 
               SizedBox(height: 16.0,),
 
-              SmoothStarRating(
+             /* SmoothStarRating(
                 rating: starCounter,
                 color: Colors.green,
                 allowHalfRating: true,
                 starCount: 5,
                 size: 45,
                 isReadOnly: true,
-              ),
+              ),*/
 
               SizedBox(height: 14.0,),
 
