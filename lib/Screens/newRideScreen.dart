@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:cab_driver/Models/drivers.dart';
 import 'package:cab_driver/Widgets/CollectFareDialog.dart';
 import 'package:cab_driver/Widgets/progressDialog.dart';
 import 'package:cab_driver/Assistants/assistantMethods.dart';
@@ -41,7 +43,7 @@ class _NewRideScreenState extends State<NewRideScreen>
   double mapPaddingFromBottom = 0;
   var geoLocator = Geolocator();
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation); //Initialization at the end // NO IDEA WHAT THE FUCK IS DOING
-  late BitmapDescriptor animatingMarkerIcon;
+  BitmapDescriptor? animatingMarkerIcon;
   late Position myPostion;
   String status = "accepted";
   String durationRide="";
@@ -50,6 +52,14 @@ class _NewRideScreenState extends State<NewRideScreen>
   Color btnColor = Colors.black87;
   late Timer timer;
   int durationCounter = 0;
+
+
+
+  //Drivers get dataSnapshot => ;
+
+
+
+
 
   @override
   void initState() {
@@ -62,7 +72,7 @@ class _NewRideScreenState extends State<NewRideScreen>
 
   void createIconMarker()
   {
-    if(animatingMarkerIcon == null)
+    if(animatingMarkerIcon == null)  //== null
     {
       ImageConfiguration imageConfiguration = createLocalImageConfiguration(context, size: Size(2, 2));
       BitmapDescriptor.fromAssetImage(imageConfiguration, "images/car_android.png")
@@ -87,7 +97,7 @@ class _NewRideScreenState extends State<NewRideScreen>
       Marker animatingMarker = Marker(
         markerId: MarkerId("animating"),
         position: mPostion,
-        icon: animatingMarkerIcon,
+        icon: animatingMarkerIcon!,
         rotation: rot,
         infoWindow: InfoWindow(title: "Current Location"),
       );
@@ -405,15 +415,23 @@ class _NewRideScreenState extends State<NewRideScreen>
       circleSet.add(dropOffLocCircle);
     });
   }
-
+  //var snapshot = Drivers.fromSnapshot(dataSnapshot);
   void acceptRideRequest()
-  {
+  { //data = json.decode(response.body).cast<Drivers>();
+
+   /* Map<String, dynamic> map = json.decode(response.body);
+    List<dynamic> data = map["dataKey"];
+    print(data[0]["name"]);
+*/
+    //var snapshot = Drivers.fromSnapshot(dataSnapshot);
+    //new Map<String, dynamic>.from(driversInformation);
+
     String ?rideRequestId = widget.rideDetails.ride_request_id;
     newRequestsRef.child(rideRequestId!).child("status").set("accepted");
-    newRequestsRef.child(rideRequestId).child("driver_name").set(driversInformation.name);
-    newRequestsRef.child(rideRequestId).child("driver_phone").set(driversInformation.phone);
-    newRequestsRef.child(rideRequestId).child("driver_id").set(driversInformation.id);
-    newRequestsRef.child(rideRequestId).child("car_details").set('${driversInformation.car_color} - ${driversInformation.car_model}');
+    newRequestsRef.child(rideRequestId).child("driver_name").set(Drivers().name);  //driversInformation.name
+    newRequestsRef.child(rideRequestId).child("driver_phone").set(Drivers().phone);
+    newRequestsRef.child(rideRequestId).child("driver_id").set(Drivers().id);
+    newRequestsRef.child(rideRequestId).child("car_details").set('${Drivers().car_color} - ${Drivers().car_model}');
 
     Map locMap =
     {
@@ -518,6 +536,9 @@ class _NewRideScreenState extends State<NewRideScreen>
     });
   }
 }
+
+
+
 
 LocationOptions({required LocationAccuracy accuracy}) {
 }

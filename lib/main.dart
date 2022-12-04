@@ -11,24 +11,36 @@ import 'package:cab_driver/Screens/loginScreen.dart';
 import 'package:cab_driver/Screens/mainScreen.dart';
 import 'package:cab_driver/Screens/registrationScreen.dart';
 import 'package:cab_driver/DataHandler/appData.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
+import 'Models/allUsers.dart';
 
 
+/// FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler); on the main
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
 
-
+  print("Handling a background message: ${message.messageId}");
+}
+/*
 Future<void> backgroundHandler(RemoteMessage message) async
 {
   print(message.data.toString());
   print(message.notification?.title);
 }
-
+*/
 void main() async
 {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+ // FirebaseMessaging.onBackgroundMessage(backgroundHandler);   //backgroundHandler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  currentfirebaseUser = FirebaseAuth.instance.currentUser!;
+
+ User? currentfirebaseUser = FirebaseAuth.instance.currentUser;
 
   runApp(MyApp());
 }

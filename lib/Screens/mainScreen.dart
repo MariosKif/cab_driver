@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     // TODO: implement initState
     super.initState();
 
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -71,10 +71,10 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
             label: "Earnings",
           ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: "Calendar",
-          ),
+       //   BottomNavigationBarItem(
+        //    icon: Icon(Icons.book),
+        //    label: "Calendar",
+        //  ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

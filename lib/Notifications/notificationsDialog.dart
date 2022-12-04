@@ -126,22 +126,37 @@ class NotificationDialog extends StatelessWidget
     );
   }
 
-  void checkAvailabilityOfRide(context)
+  void checkAvailabilityOfRide(context)  //context
   {
-    rideRequestRef.once().then(((value) => (DataSnapshot dataSnapShot){
+
+   // rideRequestRef.once().then(((value) => (DataSnapshot dataSnapShot){
+    rideRequestRef.once().then((value){
+
+      var dataSnapShot = value.snapshot;
+      Object? values = dataSnapShot.value;
       Navigator.pop(context);
-      String theRideId = "";
-      if(dataSnapShot.value != null)
+      print(context);
+      String? theRideId = "";
+      print(values); // dataSnapShot.value
+      if(values != null)  //dataSnapShot.value
       {
-        theRideId = dataSnapShot.value.toString();
+        theRideId = dataSnapShot.value.toString();  //dataSnapShot.value.toString();   //value.toString()
+        print(theRideId);
+        print('Not null');
       }
+
       else
       {
+        theRideId = dataSnapShot.value.toString();// .toString()
+        print(theRideId);
+        print('null');
         displayToastMessage("Ride not exists.", context);
       }
 
-
-      if(theRideId == rideDetails.ride_request_id)
+        print(theRideId);
+      print(rideDetails.ride_request_id);
+      //
+      if(theRideId == "searching")   //rideDetails.ride_request_id   "searching"
       {
         rideRequestRef.set("accepted");
         AssistantMethods.disableHomeTabLiveLocationUpdates();  //
@@ -159,6 +174,6 @@ class NotificationDialog extends StatelessWidget
       {
         displayToastMessage("Ride not exists.", context);
       }
-    }));
+    });
   }
 }

@@ -50,6 +50,7 @@ dependencies:
   firebase_analytics: ^10.0.4
   table_calendar: ^3.0.8
   shared_preferences: ^2.0.15
+  sentry_flutter: ^6.17.0
 
   # pick file
   file_picker: ^5.2.2

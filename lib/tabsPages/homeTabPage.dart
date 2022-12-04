@@ -124,7 +124,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   void getCurrentDriverInfo() async
   {
-    currentfirebaseUser = (await FirebaseAuth.instance.currentUser)!;
+    currentfirebaseUser = (FirebaseAuth.instance.currentUser)!;
 
     driversRef.child(currentfirebaseUser.uid).once().then((value) => (DataSnapshot dataSnapShot){
       if(dataSnapShot.value != null)
