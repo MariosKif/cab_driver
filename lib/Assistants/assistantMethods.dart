@@ -39,20 +39,38 @@ class AssistantMethods
 
     return directionDetails;
   }
-
+  ///Description: This method calculate the fare price of the ride.
+  ///TODO Add public Holidays
   static int calculateFares(DirectionDetails directionDetails)
   {
-    //in terms USD
-    double timeTraveledFare = (directionDetails.durationValue! / 60) * 0.20;
-    double distancTraveledFare = (directionDetails.distanceValue! / 1000) * 0.20;
-    double totalFareAmount = timeTraveledFare + distancTraveledFare;
+    //in terms of Euro
+    double suitcasePrice = 1.40;
+    double pricePerKm = 0;
+    double basePrice = 0;
+    var dt = DateTime.now();
 
-    //Local Currency
-    //1$ = 160 RS
-    //double totalLocalAmount = totalFareAmount * 160;
+    if(dt.hour>6 && dt.hour <20)
+    {
+      basePrice = 3.8;
+      pricePerKm = 0.95;
+    }else
+    {
+      basePrice = 4.8;
+      pricePerKm = 1.10;
+    }
+
+    double timeTraveledFare = (directionDetails.durationValue! / 60) * 0.20;
+    print(timeTraveledFare);
+    double distancTraveledFare = (directionDetails.distanceValue! / 1000) * pricePerKm;
+    print(distancTraveledFare);
+    double totalFareAmount = basePrice + timeTraveledFare + distancTraveledFare;
+    print(totalFareAmount);
+
+
     if(rideType == "Four Door")
     {
-      double result = (totalFareAmount.truncate()) * 2.0;
+
+      double result = totalFareAmount * 2.0; //truncate
       return result.truncate();
     }
     else if(rideType == "Six Door")

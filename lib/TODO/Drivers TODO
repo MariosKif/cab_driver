@@ -1,9 +1,15 @@
-Kathe valitsa xrewnei 1.20 euro.
-6:00-20:30 (prwini vardia)
-20:31-5:59 (bradini vardia)
+Kathe valitsa xrewnei 1.40 euro.
+6:00-20:30 (prwini vardia) 3.8   0.95to xiliometro
+20:31-5:59 (bradini vardia) 4.8     1.1 to xiliometro
 Free roaming se periptosi allagis dromologiou
 
 In case that file transfer is not working check in adroid -> app -> build.grandle at the end the comment
 
 Possible bugs:
 1) notificationDialog.dart ->157
+
+
+TODO
+Reset earned amount after the payment
+change Dollar to euros
+Change the corrent prices

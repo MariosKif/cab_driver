@@ -126,13 +126,15 @@ class NotificationDialog extends StatelessWidget
     );
   }
 
-  void checkAvailabilityOfRide(context)  //context
-  {
+  Future<void> checkAvailabilityOfRide(context)  //context
+  async {
 
    // rideRequestRef.once().then(((value) => (DataSnapshot dataSnapShot){
-    rideRequestRef.once().then((value){
+    //rideRequestRef.once().then((value){
 
-      var dataSnapShot = value.snapshot;
+    DatabaseEvent event = await rideRequestRef.once();
+
+      var dataSnapShot = event.snapshot;   //value.snapshot
       Object? values = dataSnapShot.value;
       Navigator.pop(context);
       print(context);
@@ -156,7 +158,7 @@ class NotificationDialog extends StatelessWidget
         print(theRideId);
       print(rideDetails.ride_request_id);
       //
-      if(theRideId == "searching")   //rideDetails.ride_request_id   "searching"
+      if(theRideId == rideDetails.ride_request_id)   //rideDetails.ride_request_id   "searching"
       {
         rideRequestRef.set("accepted");
         AssistantMethods.disableHomeTabLiveLocationUpdates();  //
@@ -174,6 +176,5 @@ class NotificationDialog extends StatelessWidget
       {
         displayToastMessage("Ride not exists.", context);
       }
-    });
   }
 }
